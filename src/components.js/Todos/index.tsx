@@ -1,22 +1,25 @@
 import React, { useState, FC } from 'react'
 import Buttons from '../Button';
+import TodoForm from '../Form';
 import { NameType } from './NameType';
 
 
 
 function Todos () {
     const [ nameArr , setNameArr ] = useState<NameType[]>([])
-    const [inputValue, setInputValue] = useState<string>('');
     const [selectedNoteId, setSelectedNoteId] = useState<string>("");
     const [ isEditing ,  setIsEditing ] = useState<boolean>(false);
+    const [ getInput , setGetInput ] = useState<string>('');
+    // const [ inputSet , setInputSet ] = useState<string>('');
+    
     
 // for submit data and show in list
     const handleSubmit = (event: React.SyntheticEvent<EventTarget>) => {
         event.preventDefault()
 
         const NameObj :NameType ={
-            names:inputValue,
-            id: Math.random() + inputValue
+            names:getInput,
+            id: Math.random() + getInput
         }
 
         setNameArr([ ...nameArr , NameObj ]);
@@ -41,15 +44,18 @@ function Todos () {
             const note = nameArr[index];
 
             if (note.id === id) {
-              setInputValue(note.names);
+                setGetInput(note.names);
               setSelectedNoteId(note.id);
               break;
             }
           }
     }
 
+
+    // console.log(inputSet)
+
     const handleReset = () =>{
-        setInputValue('');
+        setGetInput('');
         setIsEditing(false);
     }
 
@@ -57,7 +63,7 @@ function Todos () {
         event.preventDefault();
         const Updatedarr = nameArr.map((data)=>{
             if(data.id === selectedNoteId){
-                data.names = inputValue;
+                data.names = getInput;
             }
             return data;
         });
@@ -65,15 +71,11 @@ function Todos () {
         handleReset();
     } 
 
+    
+
     return (
         <div>
-            <form onSubmit={isEditing ? handleUpdate : handleSubmit}>
-                <input placeholder='Enter your name' type='text' value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-                <Buttons types='submit' textBtn={isEditing ? "Update Name" : 'Add Name'} />
-                {isEditing && <Buttons onClickFun={()=>handleReset()} textBtn='Reset' />}
-
-            </form>
-
+            <TodoForm isEditings={isEditing} inputValues={getInput} getInputs={setGetInput}  handleResets={handleReset} onSubmitHandler={isEditing ? handleUpdate : handleSubmit }  />
             <h2> Students List </h2>
             {nameArr.map((data)=>{
                 return<div key={data.id}>
