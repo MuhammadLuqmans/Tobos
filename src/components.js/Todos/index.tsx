@@ -23,7 +23,6 @@ function Todos () {
         }
 
         setNameArr([ ...nameArr , NameObj ]);
-    console.log(nameArr);
 
     }
 
@@ -31,7 +30,6 @@ function Todos () {
     const handleDelete = (id: string) =>{
          const deleteUpdate = nameArr.filter((data)=>data.id !== id);
          setNameArr(deleteUpdate)
-         console.log(deleteUpdate)
     }
 
     // for Update values
@@ -52,7 +50,6 @@ function Todos () {
     }
 
 
-    // console.log(inputSet)
 
     const handleReset = () =>{
         setGetInput('');
